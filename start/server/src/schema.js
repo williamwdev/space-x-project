@@ -9,8 +9,8 @@ const { gql } = require("apollo-server");
 */
 
 const typeDefs = gql`
-  # Object types that define each object that an application client might interact with
-  
+  # ===== Object types that define each object that an application client might interact with =====
+
   type Launch {
     id: ID!
     site: String
@@ -41,13 +41,28 @@ const typeDefs = gql`
     LARGE
   }
 
-  # Query type for clients to execute against the data graph
+  # ===== Query type for clients to execute against the data graph =====
 
   type Query {
     launches: [Launch]!
     launch(id: ID!): Launch
     me: User
   }
+
+  # ===== Mutation type that enables clients to modify data =====
+
+  type mutation {
+    bookTrips(launchIds: [ID]!): TripUpdateResponse!
+    cancelTrip(launchId: ID!): TripUpdateResponse!
+    login(email: String): String # login token
+  }
+  
+  type TripUpdateResponse {
+    success: Boolean!
+    message: String
+    launches: [Launch]
+  }
+
 `;
 
 module.exports = typeDefs;
