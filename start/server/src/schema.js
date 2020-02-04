@@ -9,6 +9,8 @@ const { gql } = require("apollo-server");
 */
 
 const typeDefs = gql`
+  # Object types that define each object that an application client might interact with
+  
   type Launch {
     id: ID!
     site: String
@@ -37,6 +39,14 @@ const typeDefs = gql`
   enum PatchSize {
     SMALL
     LARGE
+  }
+
+  # Query type for clients to execute against the data graph
+
+  type Query {
+    launches: [Launch]!
+    launch(id: ID!): Launch
+    me: User
   }
 `;
 
