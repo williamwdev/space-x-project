@@ -31,6 +31,7 @@ class UserAPI extends DataSource {
     return users && users[0] ? users[0] : null;
   }
 
+  // Takes an object with an array of launchIds and books them for the logged in user
   async bookTrips({ launchIds }) {
     const userId = this.context.user.id;
     if (!userId) return;
@@ -47,6 +48,7 @@ class UserAPI extends DataSource {
     return results;
   }
 
+  // Takes an object with a launchId and cancels that launch for the logged in user
   async bookTrip({ launchId }) {
     const userId = this.context.user.id;
     const res = await this.store.trips.findOrCreate({
@@ -60,6 +62,7 @@ class UserAPI extends DataSource {
     return !!this.store.trips.destroy({ where: { userId, launchId } });
   }
 
+  // Returns all booked launches for the logged in user
   async getLaunchIdsByUser() {
     const userId = this.context.user.id;
     const found = await this.store.trips.findAll({
@@ -70,6 +73,7 @@ class UserAPI extends DataSource {
       : [];
   }
 
+  // Determines whether the logged in user booked a certain launch
   async isBookedOnLaunch({ launchId }) {
     if (!this.context || !this.context.user) return false;
     const userId = this.context.user.id;
