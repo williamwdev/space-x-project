@@ -15,6 +15,25 @@ class LaunchAPI extends RESTDataSource {
       ? response.map(launch => this.launchReducer(launch)) 
       : []; // if there are no responses then an empty array is returned
   }
+
+  // method to transform the data to fit Launch schema data type
+  launchReducer(launch) {
+    return {
+      id: launch.flight_number || 0,
+      cursor: `${launch.launch_date_unix}`,
+      site: launch.launch_site && launch.launch_site.site_name,
+      mission: {
+        name: launch.mission_name,
+        missionPatchSmall: launch.links.mission_patch_small,
+        missionPatchLarge: launch.links.mission_patch,
+      },
+      rocket: {
+        id: launch.rocket.rocket_id,
+        name: launch.rocket.rocket_name,
+        type: launch.rocket.rocket_type,
+      },
+    };
+  }
 }
 
 module.exports = LaunchAPI;
