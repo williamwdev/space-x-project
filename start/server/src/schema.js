@@ -70,7 +70,7 @@ const typeDefs = gql`
 
   # ===== Mutation type that enables clients to modify data =====
 
-  type mutation {
+  type Mutation {
     bookTrips(launchIds: [ID]!): TripUpdateResponse!
     cancelTrip(launchId: ID!): TripUpdateResponse!
     login(email: String): String # login token
